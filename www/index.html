@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>شوارع الرمادي</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%;overflow:hidden;background:#000;font-family:Tahoma,Arial,sans-serif;touch-action:none;color:#fff}
+canvas{display:block}
+#loading,#menu,#over{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20}
+#loading{background:linear-gradient(#2b2118,#000)}
+#loading h1,#menu h1{font-size:44px;margin:0 0 6px;color:#f3c14b;text-shadow:0 3px 0 #7a4b00,0 6px 18px #000}
+.sub{opacity:.8;margin-bottom:22px}
+#barbox{width:60%;max-width:420px;height:12px;border-radius:6px;background:#333;overflow:hidden}#bar{height:100%;width:0;background:#f3c14b;transition:width .2s}
+#menu{display:none;background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.75))}
+.big{font:bold 24px Tahoma;padding:14px 46px;border:0;border-radius:40px;background:#f3c14b;color:#3a2400;box-shadow:0 5px 0 #8a5c00;margin-top:10px}
+.help{margin-top:18px;font-size:13px;opacity:.85;text-align:center;line-height:1.8}
+#over{display:none;background:rgba(80,0,0,.55)}#overMsg{font-size:40px;font-weight:bold;margin-bottom:10px}
+#hud{display:none;position:fixed;inset:0;z-index:5;pointer-events:none}
+#look{position:absolute;top:0;bottom:0;right:0;width:62%;pointer-events:auto}
+#mission{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.55);padding:7px 16px;border-radius:18px;font-size:15px;max-width:60%;text-align:center}
+#toast{position:absolute;top:30%;left:50%;transform:translateX(-50%);font-size:22px;font-weight:bold;text-shadow:0 2px 6px #000;transition:opacity .5s;opacity:0;text-align:center;width:80%}
+#stats{position:absolute;top:10px;right:12px;width:170px}
+#stars{font-size:22px;color:#ffd400;text-shadow:0 0 4px #000;letter-spacing:2px;text-align:left;direction:ltr}
+.bar{height:9px;background:rgba(0,0,0,.5);border-radius:5px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;width:100%}
+#hpbar{background:#e33}#vhp{background:#3ad}
+#carhud{display:none}#speed{font-size:22px;font-weight:bold;text-shadow:0 2px 4px #000;margin-top:4px}
+#minimap{position:absolute;top:10px;left:12px;width:120px;height:120px;border-radius:50%;border:3px solid rgba(255,255,255,.8);box-shadow:0 2px 8px #000}
+#fps{position:absolute;bottom:4px;left:50%;font-size:10px;opacity:.5}
+#stick{position:absolute;left:28px;bottom:28px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.35);pointer-events:auto;touch-action:none}
+#knob{position:absolute;left:45px;top:45px;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.55);pointer-events:none}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:bold;pointer-events:auto;touch-action:none;border:2px solid rgba(255,255,255,.6);text-shadow:0 1px 3px #000}
+#shootBtn{right:30px;bottom:40px;width:86px;height:86px;background:rgba(220,40,40,.55);font-size:17px}
+#enterBtn{right:135px;bottom:120px;width:66px;height:66px;background:rgba(40,120,220,.5);font-size:15px}
+#enterBtn.glow{background:rgba(40,160,255,.9);box-shadow:0 0 18px #4af}
+#gas{right:30px;bottom:140px;width:76px;height:76px;background:rgba(40,180,80,.55);font-size:14px;display:none}
+#brk{right:130px;bottom:30px;width:70px;height:70px;background:rgba(200,140,0,.55);font-size:14px;display:none}
+#hand{right:220px;bottom:30px;width:58px;height:58px;background:rgba(120,120,120,.55);font-size:12px;display:none}
+#hurt{position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 120px 40px rgba(255,0,0,.8);opacity:0;z-index:4}
+#busted{position:absolute;top:45%;width:100%;text-align:center;font-size:30px;font-weight:bold;color:#7cf;text-shadow:0 2px 8px #000;opacity:0}
+</style>
+</head>
+<body>
+<div id="loading"><h1>شوارع الرمادي</h1><div class="sub" id="loadTxt">جاري التحميل...</div><div id="barbox"><div id="bar"></div></div></div>
+<div id="menu"><h1>شوارع الرمادي</h1><div class="sub">سوگ • اركب • اهرب من الشرطة</div>
+<button class="big" id="startBtn">ابدأ اللعب</button>
+<div class="help">العصا يسار: الحركة والسياقة • اسحب بالشاشة: تدوير الكاميرا<br>اركب/انزل • رمي • بنزين • فرامل • هاند بريك</div></div>
+<div id="over"><div id="overMsg"></div><button class="big" id="retryBtn">حاول مرة ثانية</button></div>
+<div id="hurt"></div>
+<div id="hud">
+  <div id="look"></div>
+  <canvas id="minimap" width="240" height="240"></canvas>
+  <div id="mission"></div>
+  <div id="stats"><div id="stars">☆☆☆☆☆</div><div class="bar"><i id="hpbar"></i></div>
+    <div id="carhud"><div class="bar"><i id="vhp"></i></div><div id="speed">0</div></div></div>
+  <div id="toast"></div><div id="busted">الشرطة لزمتك! تحرك!</div>
+  <div id="stick"><div id="knob"></div></div>
+  <div class="btn" id="shootBtn">رمي</div>
+  <div class="btn" id="enterBtn">اركب</div>
+  <div class="btn" id="gas">بنزين</div>
+  <div class="btn" id="brk">فرامل</div>
+  <div class="btn" id="hand">هاند</div>
+  <div id="fps"></div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
