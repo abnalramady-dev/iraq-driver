@@ -34,9 +34,17 @@ canvas{display:block}
 #shootBtn{right:30px;bottom:40px;width:86px;height:86px;background:rgba(220,40,40,.55);font-size:17px}
 #enterBtn{right:135px;bottom:120px;width:66px;height:66px;background:rgba(40,120,220,.5);font-size:15px}
 #enterBtn.glow{background:rgba(40,160,255,.9);box-shadow:0 0 18px #4af}
-#gas{right:30px;bottom:140px;width:76px;height:76px;background:rgba(40,180,80,.55);font-size:14px;display:none}
-#brk{right:130px;bottom:30px;width:70px;height:70px;background:rgba(200,140,0,.55);font-size:14px;display:none}
-#hand{right:220px;bottom:30px;width:58px;height:58px;background:rgba(120,120,120,.55);font-size:12px;display:none}
+#gas{right:24px;bottom:22px;width:78px;height:130px;border-radius:14px;background:linear-gradient(#5c5f63,#2e3033);border:3px solid #9aa;font-size:14px;display:none;flex-direction:column;box-shadow:inset 0 -8px 0 rgba(0,0,0,.35)}
+#gas::before,#brk::before{content:"";position:absolute;left:12px;right:12px;top:14px;bottom:30px;background:repeating-linear-gradient(#777 0 6px,#444 6px 12px);border-radius:6px;opacity:.8}
+#gas span,#brk span{position:absolute;bottom:6px}
+#brk{right:116px;bottom:22px;width:96px;height:90px;border-radius:14px;background:linear-gradient(#5c5f63,#2e3033);border:3px solid #9aa;font-size:14px;display:none;box-shadow:inset 0 -8px 0 rgba(0,0,0,.35)}
+#gas.on,#brk.on{transform:scale(.93) translateY(4px);filter:brightness(1.3)}
+#hand{right:224px;bottom:26px;width:56px;height:56px;background:rgba(120,120,120,.55);font-size:12px;display:none}
+#wheel{position:absolute;left:24px;bottom:16px;width:170px;height:170px;display:none;pointer-events:auto;touch-action:none}
+#wheel svg{width:100%;height:100%;filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+body.car #stick{display:none}body.car #wheel{display:block}body.car #gas,body.car #brk,body.car #hand{display:flex}
+body.car #shootBtn{right:30px;bottom:170px;width:70px;height:70px}
+body.car #enterBtn{right:118px;bottom:126px;width:60px;height:60px}
 #hurt{position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 120px 40px rgba(255,0,0,.8);opacity:0;z-index:4}
 #busted{position:absolute;top:45%;width:100%;text-align:center;font-size:30px;font-weight:bold;color:#7cf;text-shadow:0 2px 8px #000;opacity:0}
 </style>
@@ -45,7 +53,7 @@ canvas{display:block}
 <div id="loading"><h1>شوارع الرمادي</h1><div class="sub" id="loadTxt">جاري التحميل...</div><div id="barbox"><div id="bar"></div></div></div>
 <div id="menu"><h1>شوارع الرمادي</h1><div class="sub">سوگ • اركب • اهرب من الشرطة</div>
 <button class="big" id="startBtn">ابدأ اللعب</button>
-<div class="help">العصا يسار: الحركة والسياقة • اسحب بالشاشة: تدوير الكاميرا<br>اركب/انزل • رمي • بنزين • فرامل • هاند بريك</div></div>
+<div class="help">ماشي: العصا للحركة • اسحب بالشاشة لتدوير الكاميرا<br>بالسيارة: المقود للتوجيه • دواسة البنزين والبريك • رمي من الشباك</div></div>
 <div id="over"><div id="overMsg"></div><button class="big" id="retryBtn">حاول مرة ثانية</button></div>
 <div id="hurt"></div>
 <div id="hud">
@@ -58,8 +66,9 @@ canvas{display:block}
   <div id="stick"><div id="knob"></div></div>
   <div class="btn" id="shootBtn">رمي</div>
   <div class="btn" id="enterBtn">اركب</div>
-  <div class="btn" id="gas">بنزين</div>
-  <div class="btn" id="brk">فرامل</div>
+  <div class="btn" id="gas"><span>بنزين</span></div>
+  <div class="btn" id="brk"><span>بريك</span></div>
+  <div id="wheel"><svg viewBox="-100 -100 200 200"><circle r="88" fill="none" stroke="#222" stroke-width="20"/><circle r="88" fill="none" stroke="#3a3a3a" stroke-width="12"/><circle r="22" fill="#2a2a2a" stroke="#555" stroke-width="4"/><path d="M-80 8 L-20 4 L-20 -4 L-80 -8 Z M80 8 L20 4 L20 -4 L80 -8 Z M-6 20 L6 20 L8 80 L-8 80 Z" fill="#2d2d2d" stroke="#555" stroke-width="2"/><rect x="-5" y="-98" width="10" height="20" rx="3" fill="#e33"/><text y="7" text-anchor="middle" font-size="16" fill="#ccc" font-weight="bold">R</text></svg></div>
   <div class="btn" id="hand">هاند</div>
   <div id="fps"></div>
 </div>
