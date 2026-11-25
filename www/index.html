@@ -29,6 +29,14 @@ canvas{display:block}
 #carhud{display:none}#speed{font-size:22px;font-weight:bold;text-shadow:0 2px 4px #000;margin-top:4px}
 #minimap{position:absolute;top:10px;left:12px;width:120px;height:120px;border-radius:50%;border:3px solid rgba(255,255,255,.8);box-shadow:0 2px 8px #000}
 #city{position:absolute;top:136px;left:12px;width:126px;text-align:center;font-size:13px;font-weight:bold;text-shadow:0 1px 3px #000}
+#money{position:absolute;top:156px;left:8px;width:134px;text-align:center;font-weight:bold;font-size:15px;text-shadow:0 2px 4px #000;color:#9f9}
+#timer{display:none;position:absolute;top:50px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.55);padding:4px 14px;border-radius:14px;font-weight:bold;direction:ltr}
+#jobsBtn{top:182px;left:22px;width:auto;height:auto;padding:6px 12px;border-radius:16px;background:rgba(0,0,0,.5);font-size:13px}
+#jobs{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:30;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:auto}
+#jobs .jt{font-size:24px;font-weight:bold;margin-bottom:6px}
+#jobs button{font:bold 18px Tahoma;width:min(420px,80vw);padding:10px;border:0;border-radius:14px;background:#f3c14b;color:#3a2400;text-align:right;display:flex;flex-direction:column}
+#jobs small{font-weight:normal;font-size:12px;opacity:.8}
+#jobs .jrow{display:flex;gap:10px}#jobs .jrow button{width:auto;background:#ddd;font-size:14px;padding:8px 18px}
 #fps{position:absolute;bottom:4px;left:50%;font-size:10px;opacity:.5}
 #stick{position:absolute;left:28px;bottom:28px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.35);pointer-events:auto;touch-action:none}
 #knob{position:absolute;left:45px;top:45px;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.55);pointer-events:none}
@@ -66,7 +74,15 @@ body.car #enterBtn{right:118px;bottom:126px;width:60px;height:60px}
   <div id="mission"></div>
   <div id="stats"><div id="stars">☆☆☆☆☆</div><div class="bar"><i id="hpbar"></i></div>
     <div id="carhud"><div class="bar"><i id="vhp"></i></div><div id="speed">0</div></div></div>
-  <div id="toast"></div><div id="busted">الشرطة لزمتك! تحرك!</div>
+  <div id="toast"></div>
+  <div id="money">💵 0 د.ع</div>
+  <div id="timer"></div>
+  <div class="btn" id="jobsBtn">📋 مهمات</div>
+  <div id="jobs"><div class="jt">📋 المهمات</div>
+    <button data-job="taxi">🚕 تكسي <small>وصّل راكب للمدينة الثانية — ٢٥ ألف+</small></button>
+    <button data-job="chase">🚔 الحگ الحرامي <small>اصدم سيارته لحد ما توگف — ٥٠ ألف</small></button>
+    <button data-job="gen">⚡ أبو المولدة <small>شرد بفلوس الأمبيرات — ٧٥ ألف</small></button>
+    <div class="jrow"><button id="jobCancel">إلغاء المهمة</button><button id="jobsClose">إغلاق</button></div></div><div id="busted">الشرطة لزمتك! تحرك!</div>
   <div id="stick"><div id="knob"></div></div>
   <div class="btn" id="shootBtn">رمي</div>
   <div class="btn" id="enterBtn">اركب</div>
