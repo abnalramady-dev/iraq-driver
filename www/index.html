@@ -54,6 +54,9 @@ body.car #wpnBtn{display:none}
 #hand{right:224px;bottom:26px;width:56px;height:56px;background:rgba(120,120,120,.55);font-size:12px;display:none}
 #wheel{position:absolute;left:24px;bottom:16px;width:170px;height:170px;display:none;pointer-events:auto;touch-action:none}
 #wheel svg{width:100%;height:100%;filter:drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+#hornBtn{display:none;right:222px;bottom:96px;width:64px;height:64px;background:rgba(230,200,40,.55);font-size:12px}
+body.car #hornBtn{display:flex}
+#hornBtn.on{filter:brightness(1.5);transform:scale(.92)}
 body.car #stick{display:none}body.car #wheel{display:block}body.car #gas,body.car #brk,body.car #hand{display:flex}
 body.car #shootBtn{right:30px;bottom:170px;width:70px;height:70px}
 body.car #enterBtn{right:118px;bottom:126px;width:60px;height:60px}
@@ -91,6 +94,7 @@ body.car #enterBtn{right:118px;bottom:126px;width:60px;height:60px}
   <div class="btn" id="brk"><span>بريك</span></div>
   <div id="wheel"><svg viewBox="-100 -100 200 200"><circle r="88" fill="none" stroke="#222" stroke-width="20"/><circle r="88" fill="none" stroke="#3a3a3a" stroke-width="12"/><circle r="22" fill="#2a2a2a" stroke="#555" stroke-width="4"/><path d="M-80 8 L-20 4 L-20 -4 L-80 -8 Z M80 8 L20 4 L20 -4 L80 -8 Z M-6 20 L6 20 L8 80 L-8 80 Z" fill="#2d2d2d" stroke="#555" stroke-width="2"/><rect x="-5" y="-98" width="10" height="20" rx="3" fill="#e33"/><text y="7" text-anchor="middle" font-size="16" fill="#ccc" font-weight="bold">R</text></svg></div>
   <div class="btn" id="hand">هاند</div>
+  <div class="btn" id="hornBtn">📯 هورن</div>
   <div id="fps"></div>
   <div id="city"></div>
 </div>
